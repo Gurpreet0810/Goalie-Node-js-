@@ -5,6 +5,7 @@ import { getProductImg } from '../middleware/multer.js';
 import { addProduct } from '../controllers/addProduct.js';
 import { createOrder, orderHistory } from '../controllers/createProductOrder.js';
 import { getProductByName, getProducts } from '../controllers/getProduct.js';
+import sendEmail from '../utils/nodemailer.js';
 
 
 const router = express.Router()
@@ -22,5 +23,6 @@ router.get('/get-address', verifyUser, getUserAddress)
 router.post('/edit-address', verifyUser, editUserAddress)
 router.post('/edit-personal-address', verifyUser, editSingleAddress)
 router.get('/remove-address', verifyUser, removeUserAddress)
+router.get('/send-email', sendEmail)
 
 export default router
