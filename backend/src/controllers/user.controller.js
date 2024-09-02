@@ -8,8 +8,8 @@ import generateAndSaveTokens from "../utils/refreshToken.js";
 import { addTokenToBlacklist } from "../utils/blacklist.js";
 import UserAddress from "../models/userAddress.model.js";
 import mongoose from "mongoose";
-
-
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 const jwt = jsonwebtoken
 
@@ -99,6 +99,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   const isMatch = await bcrypt.compare(password, existingUser.password);
+  console.log("Password match result:", isMatch); // Debugging
 
   if (!isMatch) {
     return res.status(401).json(new ApiResponse(401, [], "Incorrect password"));
@@ -129,39 +130,117 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  // const { _id } = req.decoded
+  const { email } = req.body;
 
-  if (!email || !password) {
-    return res.status(404)
-      .json(new ApiResponse(404,
-        [],
-        "Email and password are required"
-      ))
+  if (!email) {
+    return res.status(400).json(new ApiResponse(400, [], "Email is required"));
   }
 
   // Find the user by email to ensure it exists
-  const existingUser = await User.findOne({
-    email
-  });
+  const existingUser = await User.findOne({ email });
 
   if (!existingUser) {
-    return res.status(404)
-      .json(new ApiResponse(404,
-        [],
-        "Please Enter an valid Email"
-      ))
+    return res.status(404).json(new ApiResponse(404, [], "Invalid Email"));
+  }
+
+    // Generate a reset token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+    // Save the reset token in the user's document in the database
+  existingUser.resetPasswordToken = resetToken;
+  existingUser.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+  await existingUser.save();
+
+    // Create the password reset URL
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+  // Configure the email transporter using environment variables
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: process.env.SMTP_PORT || 465,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  try {
+    // Send the password reset email
+    const info = await transporter.sendMail({
+      from: `"Gurpreet Singh" <${process.env.SMTP_USER}>`, // sender address
+      to: existingUser.email, // send to the user's email
+      subject: "Password Reset Request", // subject line
+      text: `You requested a password reset. Please click the link to reset your password: ${resetUrl}`,
+      html: `<p>You requested a password reset. Please click the link to reset your password:</p><a href="${resetUrl}">${resetUrl}</a>`,
+    });
+
+    console.log("Message sent: %s", info.messageId);
+
+    res.status(200).json(new ApiResponse(200, [], "Password reset email sent successfully"));
+  } catch (error) {
+    console.error("Error sending email: ", error);
+    res.status(500).json(new ApiResponse(500, [], "Failed to send email"));
+  }
+});
+
+const updatePassword = asyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token || !password) {
+    return res.status(400).json(new ApiResponse(400, [], "Token and new password are required"));
+  }
+
+  // Find the user by the reset token
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() }, // Ensure the token hasn't expired
+  });
+
+  if (!user) {
+    return res.status(400).json(new ApiResponse(400, [], "Invalid or expired token"));
   }
 
   // Hash the new password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  // const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Update the user's password and save the user
+  // Update the user's password and clear the reset token fields
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
 
-  await User.findByIdAndUpdate({ _id: existingUser._id }, { password: hashedPassword }, { new: true })
+  await user.save();
 
-  res.status(200).json(new ApiResponse(200, [], "Your password has been updated"));
+  // Optionally, you can send a confirmation email that the password has been changed
+
+  res.status(200).json(new ApiResponse(200, [], "Password updated successfully"));
 });
+
+const getUserdata = async (req, res) => {
+  try {
+      // Assuming the user's ID is passed in the request (e.g., from req.user after authentication)
+      const userId = req.user._id;
+      console.log("user id : "+ userId);
+
+      // Fetch user data from the database
+      // const user = await User.findById(userId);
+
+      // if (user) {
+      //     res.status(200).json({
+      //         _id: user._id,
+      //         name: user.userName,
+      //         email: user.email,
+      //         // phoneNumber: user.phoneNumber,
+      //         // Include other fields you want to return
+      //     });
+      // } else {
+      //     res.status(404).json({ message: 'User not found' });
+      // }
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -539,7 +618,7 @@ const removeUserAddress = asyncHandler(async (req, res) => {
 
 
 export {
-  signInRouter, loginUser, forgotPassword,
+  signInRouter, loginUser, forgotPassword, updatePassword, getUserdata,
   logoutUser, userAddress, getUserAddress, editUserAddress,
   removeUserAddress, editSingleAddress
 }

@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import Loader from 'react-js-loader';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import '../style/style.scss';
+import { Form, Button, Spinner } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { validate } from '../utils/validate';
 import { updateUserProfile } from '../store/loginSlice';
+import axios from 'axios';
 
 interface FormState {
     name: string;
     email: string;
-    photo: string;
+    photo: File | null;
     phoneNumber: string;
     password: string;
 }
@@ -20,7 +21,7 @@ const ProfileEdit = () => {
     const [formData, setFormData] = useState<FormState>({
         name: '',
         email: '',
-        photo: '',
+        photo: null,
         phoneNumber: '',
         password: ''
     });
@@ -31,24 +32,54 @@ const ProfileEdit = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+     // Fetch user data when component mounts
+     useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get('/api/v1/user-profile'); // Replace with your API endpoint
+                const userData = response.data;
+
+                // Update formData state with fetched data
+                setFormData({
+                    name: userData.name,
+                    email: userData.email,
+                    photo: null, // You may handle the photo upload separately
+                    phoneNumber: userData.phoneNumber,
+                    password: '' // Keep password empty initially
+                });
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                toast.error('Failed to load profile data');
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
     const fields = [
         { field: 'name', name: 'name', validate: 'required' },
         { field: 'email', name: 'email', validate: 'required' },
-        { field: 'photo', name: 'photo', validate: '' }, // Optional validation
         { field: 'phoneNumber', name: 'phoneNumber', validate: 'required' },
         { field: 'password', name: 'password', validate: '' } // Optional validation
     ];
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setShowValidation(true);
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const { name, value, type, files } = e.target;
+        if (type === 'file') {
+            setFormData({
+                ...formData,
+                [name]: files ? files[0] : null,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const isValidate = await validate(fields, formData);
@@ -75,128 +106,91 @@ const ProfileEdit = () => {
     };
 
     return (
-        <div className="profile-edit-page">
-            <div className="profile-edit-wrapper">
-                <div className="center">
-                    <div className="profile-edit-content">
-                        <form
-                            onSubmit={handleSubmit}
-                            className="profile-edit-form"
-                            action="#"
-                        >
-                            <div className="profile-edit-field">
-                                <label>Name</label>
-                                <InputField
+                <div className="profile-edit-content">
+                        <Form onSubmit={handleSubmit} className="profile-edit-form row">
+                            <Form.Group controlId="name" className="profile-edit-field col-md-6">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type="text"
                                     placeholder="Enter your name"
-                                    onChange={handleChange}
-                                    title={formData.name}
-                                    type="text"
-                                    id="name"
                                     name="name"
-                                />
-                                {errors.name && <span className='error'>{errors.name}</span>}
-                            </div>
-
-                            <div className="profile-edit-field">
-                                <label>Email</label>
-                                <InputField
-                                    placeholder="Enter your email"
+                                    value={formData.name}
                                     onChange={handleChange}
-                                    title={formData.email}
+                                    isInvalid={!!errors.name}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.name}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="email" className="profile-edit-field col-md-6">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
                                     type="email"
-                                    id="email"
+                                    placeholder="Enter your email"
                                     name="email"
-                                />
-                                {errors.email && <span className='error'>{errors.email}</span>}
-                            </div>
-
-                            <div className="profile-edit-field">
-                                <label>Phone Number</label>
-                                <InputField
-                                    placeholder="Enter your phone number"
+                                    value={formData.email}
                                     onChange={handleChange}
-                                    title={formData.phoneNumber}
+                                    isInvalid={!!errors.email}
+                                    disabled={true}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="phoneNumber" className="profile-edit-field col-md-6">
+                                <Form.Label>Phone Number</Form.Label>
+                                <Form.Control
                                     type="text"
-                                    id="phoneNumber"
+                                    placeholder="Enter your phone number"
                                     name="phoneNumber"
-                                />
-                                {errors.phoneNumber && <span className='error'>{errors.phoneNumber}</span>}
-                            </div>
-
-                            <div className="profile-edit-field">
-                                <label>Set New Password</label>
-                                <InputField
-                                    placeholder="Enter a new password"
+                                    value={formData.phoneNumber}
                                     onChange={handleChange}
-                                    title={formData.password}
+                                    isInvalid={!!errors.phoneNumber}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.phoneNumber}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="password" className="profile-edit-field col-md-6">
+                                <Form.Label>Set New Password</Form.Label>
+                                <Form.Control
                                     type="password"
-                                    id="password"
+                                    placeholder="Enter a new password"
                                     name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password}
                                 />
-                                {errors.password && <span className='error'>{errors.password}</span>}
-                            </div>
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </Form.Group>
 
-                            <div className="profile-edit-field">
-                                <label>Profile Photo</label>
-                                <input
+                            <Form.Group controlId="photo" className="profile-edit-field col-md-6">
+                                <Form.Label>Profile Photo</Form.Label>
+                                <Form.Control
                                     type="file"
-                                    onChange={(e: any) => setFormData({
-                                        ...formData,
-                                        photo: e.target.files[0],
-                                    })}
-                                    id="photo"
                                     name="photo"
+                                    onChange={handleChange}
                                 />
-                                {errors.photo && <span className='error'>{errors.photo}</span>}
-                            </div>
+                                {errors.photo && <div className='text-danger'>{errors.photo}</div>}
+                            </Form.Group>
 
-                            {
-                                loader ?
-                                    <Loader type="box-up" bgColor={'#00003E'} color={'yellow'} size={100} />
-                                    :
-                                    <div className="submit-button">
-                                        <button className="form-submit-button" type="submit">Save Changes</button>
-                                    </div>
-                            }
-                        </form>
+                            {loader ? (
+                                <div className="text-center">
+                                    <Spinner animation="border" variant="primary" />
+                                </div>
+                            ) : (
+                                <div className="text-center">
+                                    <Button variant="primary" type="submit">Submit</Button>
+                                </div>
+                            )}
+                        </Form>
                     </div>
-                </div>
-            </div>
-        </div>
     );
 }
 
 export default ProfileEdit;
-
-interface InputFieldProps {
-    id?: string;
-    type?: string;
-    title?: string;
-    placeholder?: string;
-    name?: string;
-    disable?: boolean;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
-}
-
-const InputField: React.FC<InputFieldProps> = ({
-    type = 'text',
-    title = '',
-    placeholder = '',
-    onChange,
-    onClick,
-    id,
-    name
-}) => {
-    return (
-        <input
-            type={type}
-            value={title}
-            placeholder={placeholder}
-            onChange={onChange}
-            onClick={onClick}
-            id={id}
-            name={name}
-        />
-    );
-};

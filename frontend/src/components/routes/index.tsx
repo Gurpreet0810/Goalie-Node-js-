@@ -5,13 +5,11 @@ import Login from '../login/login';
 import Profile from '../login/profile';
 import SignUp from '../login/signUp';
 import ForgotPassword from '../login/forgot-password';
-import Addgoalie from '../login/add_goalie';
-import ListGoalie from  '../login/list_goalie';
+import ResetPassword from '../login/reset-password';
 import ProtectedRoute from './protectedRoute';
 import ComplianceBox from '../complianceBox';
 import ComplaintReason from '../complianceBox/reason';
 import CheckScreen from '../screen';
-// import {useState} from 'react'; 
 
 const router = createBrowserRouter([
   {
@@ -26,10 +24,6 @@ const router = createBrowserRouter([
             element: <HomeSection />,
           },
           {
-            path: 'add_goalie',
-            element: <Addgoalie />, 
-          },
-          {
             path: 'dashboard',
             element: <HomeSection1 />, // Displayed within Layout
           },
@@ -40,10 +34,6 @@ const router = createBrowserRouter([
           {
             path: 'users-extension',
             element: <HomeSection2 />, // Displayed within Layout
-          },
-          {
-            path: '/list_goalie',
-            element: <ListGoalie />,
           },
           {
             path: 'compliance-box',
@@ -66,7 +56,6 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />, // No header here
   },
- 
   {
     path: '/profile',
     element: <Profile />, // No header here
@@ -79,9 +68,10 @@ const router = createBrowserRouter([
     path: '/forgot-password',
     element: <ForgotPassword />,
   },
-  
-
-  
+  {
+    path: '/reset-password/:token',
+    element: <ResetPassword />,
+  },
   {
     path: 'check-screen',
     element: <CheckScreen />, // Displayed within Layout

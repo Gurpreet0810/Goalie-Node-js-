@@ -37,14 +37,14 @@ export async function getRequest(url, payload, otherInfo = {}) {
   console.log('payload for search bar', payload);
   try {
     const accessToken = localStorage.getItem('token');
-console.log(accessToken);
+
     const config = {
       ...otherInfo,
       headers: {
         ...otherInfo.headers,
         'Authorization': `Bearer ${accessToken}`,
       },
-      // params: payload, // Use params to include the query parameters
+      params: payload, // Use params to include the query parameters
     };
 
     return await axiosClient.get(url, config);

@@ -8,6 +8,7 @@ import { validate } from '../utils/validate'
 import logo from '../../assests/logo-white.png'
 import bglogo from '../../assests/bg-login.jpg'
 import logo2 from '../../assests/draw2.webp'
+import { getForgotPassword } from '../store/loginSlice'
 import { Form, Button, Spinner } from 'react-bootstrap';
 
 
@@ -49,14 +50,14 @@ const dispatch = useDispatch()
             const isValidate = await validate(fields, formData)
              if (isValidate) {
         setLoader(true)
-            //  const data =  await getForgotPassword(formData,dispatch)
-            //  console.log('res login data', data);
-            //  navigation('/home')
-            //  if (data?.statusCode == 200) {
-            //     toast.success(data.message, {autoClose:2000})
-            // setLoader(false)
-            // navigate('/')
-            //  }
+             const data =  await getForgotPassword(formData,dispatch)
+             console.log('res login data', data);
+                navigate('/home')
+                if (data?.statusCode == 200) {
+                    toast.success(data.message, {autoClose:2000})
+                    setLoader(false)
+                    navigate('/')
+                }
              }
          } catch (error : any) {
             setErrors(error)

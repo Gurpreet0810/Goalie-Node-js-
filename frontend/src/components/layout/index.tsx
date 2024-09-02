@@ -13,7 +13,7 @@ const Layout = () => {
 
 
     return (
-      <div className="layout_container">
+      <div className="layout_container container-fluid">
       <div className={
         showSidebar ? "sidebar_layout" : "sidebar_layout hider_siderbar_layout"
       }>

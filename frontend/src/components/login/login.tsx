@@ -63,11 +63,7 @@ const Login = () => {
                 if (data?.statusCode === 200) {
                   setLoader(false);
                   toast.success(data.message, {autoClose: 1000})
-<<<<<<< HEAD
-                  navigate('/add_goalie'); // Redirect to the previous page or home
-=======
                   navigate('/profile'); // Redirect to the previous page or home
->>>>>>> 38b265f2825a1c76c379ea22bc6c4fecbac8e054
                 }
             }
         } catch (error: any) {
@@ -86,14 +82,6 @@ const Login = () => {
     return (
         <div className="sign-in-page" style={{ backgroundImage: `url(${bglogo})` }}>
             <div className="signin-wrapper">
-<<<<<<< HEAD
-                <div className="left-content">
-                    <div>
-                        <img src={logo} alt="" />
-                    </div>
-                </div>
-=======
->>>>>>> 38b265f2825a1c76c379ea22bc6c4fecbac8e054
                 <div className="right-content">
                     <div className="center">
                         {/* <span>Welcome to Maya Support</span> */}

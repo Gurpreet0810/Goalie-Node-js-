@@ -12,20 +12,6 @@ interface AuthPayload {
   userInfo: any[]; // Add userInfo to the AuthPayload
 }
 
-export const add_goalie = async (payload: any) => {
-  try {
-    const res: any = await UserService.add_goalie(payload);
-    console.log('redux res loign here', res);
-    if(res.status="200"){
-      alert("User Created");
-    }
-    return res?.data || []
-  } catch (err) {
-    console.log('Error on login slice', err);   
-    throw err;
-  }
-};
-
 // Async login function
 export const userLogin = async (payload: any, dispatch: any) => {
   try {
@@ -38,7 +24,7 @@ export const userLogin = async (payload: any, dispatch: any) => {
     }));
 
     if (res?.data?.token) {
-      await localStorage.setItem('token', res?.data?.token);
+      await localStorage.setItem('token', res?.data?.data?.token);
       return res?.data;
     } else {
       console.log('User not able to login');
@@ -63,6 +49,20 @@ export const userLogout = async (dispatch: any) => {
 export const getForgotPassword = async (payload: any, dispatch: any) => {
   try {
     const res = await UserService.forgotPassword(payload);
+    dispatch(authUser({
+      token: '',
+      userInfo: res?.data ? [res?.data] : []
+    }));
+    return res?.data;
+  } catch (err) {
+    console.log('Error on login slice', err);
+    throw err;
+  }
+};
+
+export const resetPassword = async (payload: any, dispatch: any) => {
+  try {
+    const res = await UserService.resetPassword(payload);
     dispatch(authUser({
       token: '',
       userInfo: res?.data ? [res?.data] : []
