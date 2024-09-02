@@ -61,7 +61,7 @@ const Login = () => {
                 if (data?.statusCode === 200) {
                   setLoader(false);
                   toast.success(data.message, {autoClose: 1000})
-                  navigate('/check-screen'); // Redirect to the previous page or home
+                  navigate('/add_goalie'); // Redirect to the previous page or home
                 }
             }
         } catch (error: any) {
@@ -83,9 +83,6 @@ const Login = () => {
                 <div className="left-content">
                     <div>
                         <img src={logo} alt="" />
-                    </div>
-                    <div>
-                        <img src={logo2} alt="" />
                     </div>
                 </div>
                 <div className="right-content">
