@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/style.scss';
 import { validate } from '../utils/validate';
-import { updateUserProfile } from '../store/loginSlice';
+// import { updateUserProfile } from '../store/loginSlice';
 
 interface FormState {
     name: string;
@@ -54,13 +54,13 @@ const ProfileEdit = () => {
             const isValidate = await validate(fields, formData);
             if (isValidate) {
                 setLoader(true);
-                const data = await updateUserProfile(formData, dispatch);
+                // const data = await updateUserProfile(formData, dispatch);
                 
-                if (data?.statusCode === 200) {
-                    setLoader(false);
-                    toast.success(data.message, { autoClose: 1000 });
-                    navigate('/profile'); // Redirect to the profile page
-                }
+                // if (data?.statusCode === 200) {
+                //     setLoader(false);
+                //     toast.success(data.message, { autoClose: 1000 });
+                //     navigate('/profile'); // Redirect to the profile page
+                // }
             }
         } catch (error: any) {
             setLoader(false);

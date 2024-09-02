@@ -20,9 +20,7 @@ const Addgoalie = () => {
 
         setUser({...user, [name]:value })
     }
-    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setFile(event.target.files[0]);
-    };
+   
     const Handlesubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();    
         console.log(user);
@@ -49,7 +47,7 @@ const Addgoalie = () => {
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Photo</Form.Label>
         <Form.Control type="file" name='goalie_photo' 
-        onChange={onFileChange}
+        
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

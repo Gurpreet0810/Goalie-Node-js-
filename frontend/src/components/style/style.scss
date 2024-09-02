@@ -667,13 +667,13 @@ font-weight: bold;
     align-items: center;
     width: 100%;
     height: 100vh;
-    background-size: cover;
+    background-color: var(--themeLight);
 
 }
 
 .signin-wrapper {
-    background-color: #0E0124;
-    width: 30%;
+    background-color: var(--themeWhite);
+    width: 900px;
     display: flex;
     flex-wrap: wrap;
     display: -webkit-flex;
@@ -685,30 +685,24 @@ font-weight: bold;
     font-family: sans-serif;
 }
 
-// .signin-wrapper .left-content {
-//     width: 50%;
-// }
+.signin-wrapper .left-content {
+    width: 50%;
+}
 
-// .signin-wrapper .left-content img {
-//     max-width: 100%;
-//     height: 100%;
-//     object-fit: cover;
-//     aspect-ratio: 3/1;
-//     border-top-left-radius: 8px;
-//     border-bottom-left-radius: 8px;
-//     /* background-position: 0% 50%; */
-//     border-top-right-radius: 25%;
-//     border-bottom-right-radius: 25%;
-// }
-
-.signin-wrapper .right-content .login-img {
-    width: 200px;
-    margin: auto;
-    display: table;
+.signin-wrapper .left-content img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 3/1;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    /* background-position: 0% 50%; */
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
 }
 
 .signin-wrapper .right-content {
-    width: 100%;
+    width: 50%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -737,7 +731,7 @@ font-weight: bold;
 }
 
 .signin-wrapper .right-content .center .login-content {
-    padding: 50px 80px 50px 80px;
+    padding: 50px 80px 10px 80px;
 }
 
 .signin-wrapper .right-content .center .login-form {
@@ -753,8 +747,8 @@ font-weight: bold;
 
 .signin-wrapper .right-content .center .login-form label {
     text-align: left;
-    color: #ffffff;
-    font-size: 18px;
+    color: var(--labelText);
+    font-size: 14px;
     /* margin-bottom: 5px; */
     margin-top: 10px;
     margin-bottom: 10px;
@@ -769,8 +763,7 @@ font-weight: bold;
     border-bottom: 1px solid var(--inputColor);
     background-color: transparent;
     padding-bottom: 5px;
-    color: #ffffff;
-    font-size: 18px;
+    color: var(--textDark);
     /* margin-bottom: 25px; */
 }
 
@@ -807,7 +800,7 @@ font-weight: bold;
     border-bottom: 1px solid var(--inputColor);
     background-color: transparent;
     padding-bottom: 5px;
-    color: #fff;
+    color: var(--textDark);
 
 }
 
@@ -840,14 +833,13 @@ font-weight: bold;
 
 .signin-wrapper .right-content .center .login-form .form-submit-button {
     text-align: center;
-    background-color: #00617A;
+    background-color: var(--btnTheme);
     padding: 10px 30px;
     border-radius: 25px;
     color: var(--textNormal);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 18px;
 }
 
 .signin-wrapper .right-content .center .login-form .form-submit-button:hover {
@@ -1692,116 +1684,4 @@ section .product_title {
         text-align: start;
         padding-left: 15px;
     }
-}
-
-// new added css
-
-// profileEdit.scss
-
-.profile-edit-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f7f7f7;
-    // margin-top: 80px;
-  }
-  
-  .profile-edit-wrapper {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .center {
-    text-align: center;
-  }
-  
-  .profile-edit-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .profile-edit-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .profile-edit-field label {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333333;
-  }
-  
-  .profile-edit-field input[type="text"],
-  .profile-edit-field input[type="email"],
-  .profile-edit-field input[type="password"],
-  .profile-edit-field input[type="file"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .profile-edit-field input[type="text"]:focus,
-  .profile-edit-field input[type="email"]:focus,
-  .profile-edit-field input[type="password"]:focus,
-  .profile-edit-field input[type="file"]:focus {
-    border-color: #4a90e2;
-    outline: none;
-  }
-  
-  .submit-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .form-submit-button {
-    padding: 12px 24px;
-    background-color: #4a90e2;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .form-submit-button:hover {
-    background-color: #357abd;
-  }
-  
-  .error {
-    color: #d9534f;
-    font-size: 12px;
-  }
-  
-  .loader {
-    display: flex;
-    justify-content: center;
-    color:#fff;
-  }
-  
-  .sl-box6 .sl-loader .sl-loader-items .sl-item {
-    --shadow: #ffffff !important;
-    --bga: #fff !important;
-    --bg: #ffffff !important;
-}
-
-a.forgot-password-link {
-    font-size: 18px;
-    color: #fff;
-    text-decoration: none;
-}
-
-a.forgot-password-link:hover {
-    font-size: 18px;
-    color: #0d6efd;
-    text-decoration: none;
 }

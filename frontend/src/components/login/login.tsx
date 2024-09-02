@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate, useNavigation } from 'react-router-dom'
-import logo from '../../assests/logo-white.png'
-import bglogo from '../../assests/bg-login.jpg'
+import logo from '../../assests/logo.png'
 import logo2 from '../../assests/draw2.webp'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -14,7 +13,6 @@ import { TiSocialLinkedinCircular } from "react-icons/ti";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaGooglePlus } from "react-icons/fa6";
 import { userLogin } from '../store/loginSlice'
-import { Form, Button, Spinner } from 'react-bootstrap';
 
 
 interface formState {
@@ -63,11 +61,7 @@ const Login = () => {
                 if (data?.statusCode === 200) {
                   setLoader(false);
                   toast.success(data.message, {autoClose: 1000})
-<<<<<<< HEAD
                   navigate('/add_goalie'); // Redirect to the previous page or home
-=======
-                  navigate('/profile'); // Redirect to the previous page or home
->>>>>>> 38b265f2825a1c76c379ea22bc6c4fecbac8e054
                 }
             }
         } catch (error: any) {
@@ -84,76 +78,89 @@ const Login = () => {
 
 
     return (
-        <div className="sign-in-page" style={{ backgroundImage: `url(${bglogo})` }}>
+        <div className="sign-in-page">
             <div className="signin-wrapper">
-<<<<<<< HEAD
                 <div className="left-content">
                     <div>
                         <img src={logo} alt="" />
                     </div>
                 </div>
-=======
->>>>>>> 38b265f2825a1c76c379ea22bc6c4fecbac8e054
                 <div className="right-content">
                     <div className="center">
                         {/* <span>Welcome to Maya Support</span> */}
                         <div className="login-content">
-                        <img src={logo} alt="" className='login-img'/>
-                        <Form onSubmit={handleSubmit} className="login-form">
-    <Form.Group controlId="formUserName" className="login-username mb-3">
-      <Form.Label>UserName</Form.Label>
-      <InputField
-        placeholder="Enter a valid User Name"
-        onChange={handleChange}
-        title={formData.userName}
-        type="text"
-        id="userName"
-        name="userName"
-      />
-      {errors.userName && <Form.Text className="text-danger">{errors.userName}</Form.Text>}
-    </Form.Group>
+                            <form
+                                onSubmit={handleSubmit}
+                                className="login-form" action="#">
+                                <div className="login-username">
+                                    <label >UserName</label>
 
-    <Form.Group controlId="formPassword" className="login-password mb-3">
-      <Form.Label>Password</Form.Label>
-      <InputField
-        placeholder="Enter password"
-        onChange={handleChange}
-        title={formData.password}
-        type="password"
-        id="password"
-        name="password"
-      />
-      {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
-    </Form.Group>
+                                    <InputField
+                                        placeholder="Enter a valid User Name"
+                                        onChange={handleChange}
+                                        title={formData.userName}
+                                        type="text"
+                                        id="userName"
+                                        name="userName"
+                                    />
+                                    {errors.userName && <span className='error'>{errors.userName}</span>}
+                                </div>
 
-    <Form.Group controlId="formRememberMe" className="login-password remember_me mb-3">
-      <Form.Check
-        type="checkbox"
-        label="Remember me"
-        id="remember"
-      />
-    </Form.Group>
+                                <div className="login-password">
+                                    <label htmlFor='password'>Password</label>
+                                    <InputField
+                                        placeholder="Enter password"
+                                        onChange={handleChange}
+                                        title={formData.password}
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                    />  
+                                    {errors.password && <span className='error'>{errors.password}</span>}
 
-    {loader ? (
-      <div className="loader">
-        <Loader type="box-up" bgColor={'#00003E'} color={'yellow'} size={100} />
-      </div>
-    ) : (
-      <Button variant="primary" type="submit" className="form-submit-button">
-        Login
-      </Button>
+                                </div>
+                                <div className="login-password remember_me">
+                                 <input type="checkbox"  id='remember'/>
+                                    <label htmlFor='remember'>Remember me</label>
+                                </div>
+                                
 
-    )}
+                                {
+                                    loader ?
+                                        <Loader type="box-up" bgColor={'#00003E'} color={'yello'} size={100} />
+                                        :
+                                        <div className="submit-button">
 
-<div className="d-flex justify-content-between align-items-center pt-3">
-    <Form.Text>
-      <a href="/forgot-password" className="forgot-password-link">
-        Forgot Password?
-      </a>
-    </Form.Text>
-  </div>
-  </Form>
+                                            <button className="form-submit-button" type="submit">Login</button>
+                                        </div>
+
+
+                                }
+                            </form>
                         </div>
+                        <div className="bottom">
+                            <div className="create-acc">
+                                <p>Sign In With</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bottom">
+                        <span>or</span>
+                        <div className="social-links">
+                            <FaFacebook/>
+                            <AiFillTwitterCircle />
+                            <TiSocialLinkedinCircular />
+                        </div>
+                    </div>
+                </div>
+                <div className='copy_right_content'>
+                    <p>Copyright © 2020. All rights reserved.</p>
+                    <div >
+                        <FaFacebook  className='social-links-icons'/>
+                        <AiFillTwitterCircle   className='social-links-icons'/>
+                        <FaGooglePlus   className='social-links-icons'/>
+                        <TiSocialLinkedinCircular  className='social-links-icons' />
                     </div>
                 </div>
             </div>
