@@ -667,13 +667,19 @@ font-weight: bold;
     align-items: center;
     width: 100%;
     height: 100vh;
-    background-size: cover;
+    background-color: var(--themeLight);
 
 }
 
+<<<<<<< HEAD
 .signin-wrapper, .reset-wrapper {
     background-color: #0E0124;
     width: 30%;
+=======
+.signin-wrapper {
+    background-color: var(--themeWhite);
+    width: 900px;
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
     display: flex;
     flex-wrap: wrap;
     display: -webkit-flex;
@@ -685,30 +691,24 @@ font-weight: bold;
     font-family: sans-serif;
 }
 
-// .signin-wrapper .left-content {
-//     width: 50%;
-// }
+.signin-wrapper .left-content {
+    width: 50%;
+}
 
-// .signin-wrapper .left-content img {
-//     max-width: 100%;
-//     height: 100%;
-//     object-fit: cover;
-//     aspect-ratio: 3/1;
-//     border-top-left-radius: 8px;
-//     border-bottom-left-radius: 8px;
-//     /* background-position: 0% 50%; */
-//     border-top-right-radius: 25%;
-//     border-bottom-right-radius: 25%;
-// }
-
-.signin-wrapper .right-content .login-img {
-    width: 200px;
-    margin: auto;
-    display: table;
+.signin-wrapper .left-content img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 3/1;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    /* background-position: 0% 50%; */
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
 }
 
 .signin-wrapper .right-content {
-    width: 100%;
+    width: 50%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -736,8 +736,13 @@ font-weight: bold;
     color: var(--btnTheme);
 }
 
+<<<<<<< HEAD
 .signin-wrapper .right-content .center .login-content, .reset-content {
     padding: 50px 80px 50px 80px;
+=======
+.signin-wrapper .right-content .center .login-content {
+    padding: 50px 80px 10px 80px;
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
 }
 
 .signin-wrapper .right-content .center .login-form, form.reset-form {
@@ -753,8 +758,8 @@ font-weight: bold;
 
 .login-form label {
     text-align: left;
-    color: #ffffff;
-    font-size: 18px;
+    color: var(--labelText);
+    font-size: 14px;
     /* margin-bottom: 5px; */
     margin-top: 10px;
     margin-bottom: 10px;
@@ -769,8 +774,7 @@ input[type=text] {
     border-bottom: 1px solid var(--inputColor);
     background-color: transparent;
     padding-bottom: 5px;
-    color: #ffffff;
-    font-size: 18px;
+    color: var(--textDark);
     /* margin-bottom: 25px; */
 }
 
@@ -807,7 +811,7 @@ input[type=password] {
     border-bottom: 1px solid var(--inputColor);
     background-color: transparent;
     padding-bottom: 5px;
-    color: #fff;
+    color: var(--textDark);
 
 }
 
@@ -853,14 +857,17 @@ form.reset-form label.form-label {
 
 .form-submit-button {
     text-align: center;
+<<<<<<< HEAD
     background-color: #00617A !important;
+=======
+    background-color: var(--btnTheme);
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
     padding: 10px 30px;
     border-radius: 25px;
     color: var(--textNormal);
     border: none !important;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 18px;
 }
 
 .signin-wrapper .right-content .center .login-form .form-submit-button:hover {
@@ -1705,6 +1712,7 @@ section .product_title {
         text-align: start;
         padding-left: 15px;
     }
+<<<<<<< HEAD
 }
 
 // new added css
@@ -1824,3 +1832,6 @@ a.forgot-password-link:hover {
 main.layout_section input[type=text] {
     color: #000 !important;
 }   
+=======
+}
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf

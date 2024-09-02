@@ -9,20 +9,16 @@ interface UserState {
 
 interface AuthPayload {
   token: string;
-  userInfo: any[]; // Add userInfo to the AuthPayload
+  // Add other user properties if needed
 }
 
 // Async login function
 export const userLogin = async (payload: any, dispatch: any) => {
   try {
     const res: any = await UserService.signInUSer(payload);
-    console.log('redux res login here', res);
-
-    dispatch(authUser({
-      token: res?.data?.data?.token || '',
-      userInfo: res?.data?.data ? [res?.data?.data] : []
-    }));
-
+    console.log('redux res loign here', res);
+    
+    dispatch(authUser(res?.data?.data || {}));
     if (res?.data?.token) {
       await localStorage.setItem('token', res?.data?.data?.token);
       return res?.data;
@@ -34,32 +30,30 @@ export const userLogin = async (payload: any, dispatch: any) => {
     throw err;
   }
 };
-
 export const userLogout = async (dispatch: any) => {
   try {
     const res: any = await UserService.logoutUser();
     console.log('redux res logout', res);
-    return res?.data;
+   return res?.data
   } catch (err) {
     console.log('Error on login slice', err);
     throw err;
   }
 };
 
-export const getForgotPassword = async (payload: any, dispatch: any) => {
-  try {
-    const res = await UserService.forgotPassword(payload);
-    dispatch(authUser({
-      token: '',
-      userInfo: res?.data ? [res?.data] : []
-    }));
-    return res?.data;
-  } catch (err) {
-    console.log('Error on login slice', err);
-    throw err;
-  }
-};
+export const getForgotPassword = async ( payload: any ,dispatch: any) => {
+    
+    try {
+        const res = await UserService.forgotPassword(payload);
+        dispatch(authUser(res?.data || {}));
+        return res?.data
+    } catch (err) {
+        console.log('Error on login slice', err);
+        throw err
+    }
+}
 
+<<<<<<< HEAD
 export const resetPassword = async (payload: any, dispatch: any) => {
   try {
     const res = await UserService.resetPassword(payload);
@@ -87,38 +81,33 @@ export const LogoutFunction = async (dispatch: any) => {
     throw err;
   }
 };
+=======
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
 
-export const updateUserProfile = async (payload: any, dispatch: any) => {
-  try {
-    const res = await UserService.updateUserProfile(payload);
-    console.log('redux res update profile', res);
-    dispatch(authUser({
-      token: res?.data?.token || '',
-      userInfo: res?.data?.data ? [res?.data?.data] : []
-    }));
-    toast.success('Profile updated successfully!', { autoClose: 2000 });
-    return res?.data;
-  } catch (err) {
-    console.log('Error on update profile slice', err);
-    toast.error('Error updating profile.', { autoClose: 2000 });
-    throw err;
-  }
-};
+export const LogoutFunction = async ( dispatch: any) => {
+    
+    try {
+        const res = await UserService.logoutUser();
+        dispatch(authUser(res?.data || {}));
+        return res?.data
+    } catch (err) {
+        console.log('Error on login slice', err);
+        throw err
+    }
+}
 
 export const signupFunction = async (payload: any, dispatch: any) => {
-  try {
-    const res = await UserService.signUpUser(payload);
-    await localStorage.setItem("token", res?.data?.data?.token);
-    dispatch(authUser({
-      token: res?.data?.data?.token || '',
-      userInfo: res?.data?.data ? [res?.data?.data] : []
-    }));
-    return res?.data || [];
-  } catch (err) {
-    console.log('Error on login slice', err);
-    throw err;
-  }
-};
+    try {
+        const res = await UserService.signUpUser(payload);
+        await localStorage.setItem("token", res?.data?.data?.token);
+        dispatch(authUser(res?.data.data || {}));
+        return res?.data || []
+    } catch (err) {
+        console.log('Error on login slice', err);
+        throw err
+    }
+}
+
 
 const initialState: UserState = {
   userInfo: [],
@@ -130,10 +119,10 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     authUser: (state, action: PayloadAction<AuthPayload>) => {
-      console.log('initialState', state);
+      console.log('instaialstate', state);
       
-      state.userInfo = action.payload.userInfo;
-      state.token = action.payload.token;
+      state.userInfo = [action.payload];
+      state.token =  '';
     },
     signoutUser: (state) => {
       state.userInfo = [];

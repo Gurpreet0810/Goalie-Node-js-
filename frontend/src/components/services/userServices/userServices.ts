@@ -13,12 +13,15 @@ class LoginService {
   forgotPassword = async (payload: any) => {
     return putRequest('/api/v1/forgotPassword', payload)
   } 
+<<<<<<< HEAD
   resetPassword = async (payload: any) => {
     return postRequest('/api/v1/resetPassword', payload)
   } 
   updateUserProfile = async (payload: any) => {
     return postRequest('/api/v1/updateProfile', payload)
   } 
+=======
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
 
 }
 

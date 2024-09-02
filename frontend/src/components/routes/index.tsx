@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../layout';
 import HomeSection, { HomeSection1, HomeSection2 } from '../home';
 import Login from '../login/login';
-import Profile from '../login/profile';
 import SignUp from '../login/signUp';
 import ForgotPassword from '../login/forgot-password';
 import ResetPassword from '../login/reset-password';
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'profile',
-            element: <Profile />, // Displayed within Layout
+            element: <HomeSection2 />, // Displayed within Layout
           },
           {
             path: 'users-extension',
@@ -55,10 +54,6 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />, // No header here
-  },
-  {
-    path: '/profile',
-    element: <Profile />, // No header here
   },
   {
     path: '/sign-up',

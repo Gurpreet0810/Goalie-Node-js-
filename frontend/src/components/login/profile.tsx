@@ -6,8 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { validate } from '../utils/validate';
+<<<<<<< HEAD
 import { updateUserProfile } from '../store/loginSlice';
 import axios from 'axios';
+=======
+// import { updateUserProfile } from '../store/loginSlice';
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
 
 interface FormState {
     name: string;
@@ -85,13 +89,13 @@ const ProfileEdit = () => {
             const isValidate = await validate(fields, formData);
             if (isValidate) {
                 setLoader(true);
-                const data = await updateUserProfile(formData, dispatch);
+                // const data = await updateUserProfile(formData, dispatch);
                 
-                if (data?.statusCode === 200) {
-                    setLoader(false);
-                    toast.success(data.message, { autoClose: 1000 });
-                    navigate('/profile'); // Redirect to the profile page
-                }
+                // if (data?.statusCode === 200) {
+                //     setLoader(false);
+                //     toast.success(data.message, { autoClose: 1000 });
+                //     navigate('/profile'); // Redirect to the profile page
+                // }
             }
         } catch (error: any) {
             setLoader(false);

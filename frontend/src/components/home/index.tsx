@@ -7,6 +7,7 @@ const HomeSection = () => {
 }
 export default HomeSection
 
+
 export const HomeSection1 = () => {
     return <>
     <div className="home_section">
@@ -14,6 +15,9 @@ export const HomeSection1 = () => {
     </div>
     </>
 }
+
+
+
 
 export const HomeSection2 = () => {
     return <>

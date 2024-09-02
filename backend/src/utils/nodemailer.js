@@ -1,34 +1,44 @@
-const sendEmail = () => {
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-  host: process.env.NODE_MAILER_HOST,
-  port: process.env.NODE_MAILER_PORT,
-  secure: false, // Use `true` for port 465, `false` for all other ports
-  auth: {
-    user: process.env.NODE_MAILER_EMAIL,
-    pass: process.env.NODE_MAILER_PASSWORD,
-  },
-});
-
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-}
-
-main().catch(console.error);
+import nodemailer from 'nodemailer'
+import { asyncHandler } from './asyncHandler.js'
 
 
-}
 
-export default sendEmail
+const sendEmail = asyncHandler(async (req, res) => {
+    
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'gurpreetiws123@gmail.com',
+                pass: 'gejotaugdxvdqykc'
+            }
+        });
+        
+        // async..await is not allowed in global scope, must use a wrapper
+        async function main() {
+          // send mail with defined transport object
+          const info = await transporter.sendMail({
+            from: 'gurpreetiws123@gmail.com', // sender address
+            to: "kamaljeetinsiderwebsolutions@gmail.com", // list of receivers
+            subject: "Hello  gurpreet ✔", // Subject line
+            text: "Hello world? gurpreet", // plain text body
+            html: "<b>Hello world? gurpreet</b>", // html body
+          });
+        
+          console.log("Message sent: %s", info.messageId);
+          // Message sent: <mailto:d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+        }
+        
+        main().catch(console.error);
+    
+    
+        return res.status(200)
+        .json({
+            message: 'sueccwss'
+        })
+        
+        
+})
+    
+    export default sendEmail

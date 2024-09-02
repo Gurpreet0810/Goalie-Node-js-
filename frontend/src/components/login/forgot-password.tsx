@@ -5,15 +5,19 @@ import { useDispatch } from 'react-redux'
 import Loader from "react-js-loader";
 import '../style/style.scss'
 import { validate } from '../utils/validate'
-import logo from '../../assests/logo-white.png'
-import bglogo from '../../assests/bg-login.jpg'
+import logo from '../../assests/logo.png'
 import logo2 from '../../assests/draw2.webp'
+<<<<<<< HEAD
 import { getForgotPassword } from '../store/loginSlice'
 import { Form, Button, Spinner } from 'react-bootstrap';
+=======
+>>>>>>> be79a9ffd1186b334765e630085192ce33851ecf
 
 
 interface formState {
-    email: string
+    email: string,
+    password: string,
+    confirmPassword: string
 }
 const ForgotPassword = () => {
     const [loader , setLoader] = useState(false)
@@ -21,7 +25,9 @@ const ForgotPassword = () => {
 
 const dispatch = useDispatch()
     const [formData, setFormData] = useState <formState>({
-        email:''
+        email:'',
+        password:'',
+        confirmPassword :''
     })
     const [errors ,setErrors] = useState<any>({})
     
@@ -29,7 +35,9 @@ const dispatch = useDispatch()
     const[showValidation , setShowValidation] = useState(false)
 
     const fields = [
-        { field: 'email', name: 'email', validate: 'required' }
+        { field: 'email', name: 'email', validate: 'required' },
+        { field: 'password', name: 'password', validate: 'required' },
+        { field: 'confirmPassword', name: 'confirmPassword', validate: 'required' },
     ]
     
     
@@ -76,49 +84,98 @@ const dispatch = useDispatch()
      };
     
 
-     return (
-        <div className="sign-in-page" style={{ backgroundImage: `url(${bglogo})` }}>
+        return (
+            <div className="sign-in-page">
             <div className="signin-wrapper">
+                <div className="left-content">
+                <div>
+                    <img src={logo} alt="" />
+                    </div>
+                    <div>
+                    <img src={logo2} alt="" />
+                    </div>
+                </div>
                 <div className="right-content">
+                
+                    <div className="c-small-img">
+                        <img  src={logo} alt=""/>
+                    </div>
                     <div className="center">
+                      
                         <div className="login-content">
-                            <img src={logo} alt="" className='login-img'/>
-                            <Form onSubmit={handleSubmit} className="login-form">
-                                <Form.Group controlId="formEmail" className="login-username mb-3">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        name="email"
-                                        placeholder="Enter your email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.email}
-                                    />
-                                    {errors.email && (
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.email}
-                                        </Form.Control.Feedback>
-                                    )}
-                                </Form.Group>
+                            <form 
+                            onSubmit={handleSubmit}
+                            className="login-form" action="#">
+                                <div className="login-username">
+                                    <label >Email</label>
+                                    <input
+                                    onChange={handleChange}
+                                    value={formData.email}
+                                     type="text" name="email" id="name"/>
+                                </div>
+                                {
+                                    errors.email ?
+                                    <span className='error'>{errors.email}</span> :
+                                    null
+                                }
+                                <div className="login-password">
+                                    <label >New Password</label>
+                                    <input
+                                    onChange={handleChange}
+                                    value={formData.password}
+                                     type="password" name="password" id="name" />
+                                </div>
+                                {
+                                    errors.password ?
+                                    <span className='error'>{errors.password}</span> :
+                                    null
+                                }
+                                <div className="login-password">
+                                    <label >Confirm Password</label>
+                                    <input 
+                                    onChange={handleChange}
+                                    value={formData.confirmPassword}
+                                    type="password" name="confirmPassword" id="name" />
+                                </div> {
+                                    errors.confirmPassword ?
+                                    <span className='error'>{errors.confirmPassword}</span> :
+                                    null
+                                }
+                           
+                                {
+                                        loader ?
+                                <Loader type="box-up" bgColor={'red'} color={'yello'} size={100} />
+ : 
+ <div className="submit-button">
 
-                                {loader ? (
-                                    <div className="loader">
-                                        <Loader type="box-up" bgColor={'red'} color={'yellow'} size={100} />
-                                    </div>
-                                ) : (
-                                    <div className="submit-button">
-                                        <Button variant="primary" type="submit" className="form-submit-button">
-                                            Send Password Reset Email
-                                        </Button>
-                                    </div>
-                                )}
-                            </Form>
+ <button className="form-submit-button" type="submit">Update Password</button>
+ </div>
+
+
+                                    }
+                               
+                            </form>
                         </div>
-                    </div>                
+                        <div className="bottom">
+                            <div className="create-acc">
+                            <p>Existing user?</p>
+                                <Link className='select_link' to='/'>
+                                Login
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                <div className='copy_right_content'>
+                                    <p>Copyright © 2020. All rights reserved.</p>
+                                    <div>
+                                        
+                                    </div>
                 </div>
             </div>
         </div>
-    );
+        )
 }
 
 export default ForgotPassword
